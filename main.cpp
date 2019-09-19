@@ -1,4 +1,7 @@
 #include <iostream>
+#include <bits/stdc++.h>
+#include <cstdlib>
+
 
 using namespace std;
 
@@ -30,28 +33,55 @@ void quickSort(int arr[], int low, int high){
     }
 }
 
-
-void printArray(int arr[], int size){
-    int i;
-    for(i = 0; i < size; i++){
-        cout << arr[i] << " ";
+void missingNumber(int A[], int sA, int next, int aux){
+    if (aux < sA) missingNumber(A, sA, next, aux + 1);
+    else {
+        next = A[aux - 1];
+        next++;
+        if(next%2 != 0) next++;
+        cout << next;
     }
-    cout << endl;
+}
 
+
+//Funcion para llenar el arreglo
+void fillArr(int *array, int sA, int aux) {
+    if (aux < sA) {
+        cout << "Input number " << aux + 1 << " of " << sA << endl;
+        cin >> array[aux];
+        fillArr(array, sA, aux + 1);
+    }
+}
+
+void printArray(int arr[], int sA, int aux){
+    if (aux < sA) {
+        cout << arr[aux] << " ";
+        printArray(arr, sA, aux + 1);
+    }
 }
 
 int main() {
-    int A[] = { 20, 5, 100, 47, 6, 22, 4, 0 };
+    int size;
+    cout << "Gimme the size of the A array" << endl;
+    cin >> size;
+
+    int A[size];
+    fillArr(A, size, 0);
+
     int n = sizeof(A) / sizeof(A[0]);
 
-    cout<<"El arreglo es: ";
+    cout<<"This is your array: \n";
+    printArray(A, n, 0);
+    cout << endl;
 
-    printArray(A, n);
     quickSort(A, 0, n - 1);
 
     cout << "Sorted array: \n";
-    printArray(A, n);
+    printArray(A, n, 0);
+    cout << endl;
 
+    cout<<"The maximum missing number: \n";
+    missingNumber(A, n, 0, 0);
 
     return 0;
 }
